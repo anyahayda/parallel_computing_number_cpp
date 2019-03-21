@@ -30,7 +30,6 @@ void find_solution_interval(int const from, int const to, int const n, int *res)
             }
             if ((x * y) % (x + y) == 0) {
                 if ((x * y) / (x + y) == n) {
-//                    std::cout << x << " RES " << y << std::endl;
                     solution++;
                 }
             }
@@ -68,8 +67,6 @@ int main(int argc, char *argv[]) {
 
         n = strtol(argv[2], nullptr, 10);
     }
-//    cout << n << "N" << endl;
-//    cout << threads << "threads" << endl;
 
     auto stage1_start_time = get_current_time_fenced();
     //creating threads
@@ -84,7 +81,8 @@ int main(int argc, char *argv[]) {
     auto finish_time = get_current_time_fenced();
     auto total_time = finish_time - stage1_start_time;
     std::ofstream out_file("result.txt", std::ofstream::app);
-    out_file << "N: " << n << "\tRES: " << result << "\tTIME: " << to_us(total_time) << "\tTHREADS: " << threads << endl;
+    out_file << "N: " << n << "\tRES: " << result << "\tTIME: " << to_us(total_time) << "\tTHREADS: " << threads
+             << endl;
 
     //    output time and result for python script
     cout << to_us(total_time) << "\t" << result << endl;
