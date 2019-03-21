@@ -30,9 +30,9 @@ if __name__ == '__main__':
 
     if len(sys.argv) < 3:
         print("""$ python {}                  # Не вказано необхідні аргументи
-Usage:  {} th [digits]
+Usage:  {} th n]
 Where:  th -- number of threads used
-digits -- digits in lucky ticket number (optional)
+n -- n in the equation 1/x+1/y=1/n (optional)
         """.format(sys.argv[0], sys.argv[0]))
         exit()
     n = int(sys.argv[2])
