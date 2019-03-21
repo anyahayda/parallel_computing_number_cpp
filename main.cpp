@@ -3,6 +3,8 @@
 #include <thread>
 #include <vector>
 #include <future>
+#include <fstream>
+
 
 std::mutex counter;
 
@@ -22,8 +24,6 @@ inline long long to_us(const D &d) {
 void find_solution_interval(int const from, int const to, int const n, int *res) {
     int solution = 0;
     for (int x = from + 1; x <= to; ++x) {
-
-
         for (int y = 1; y <= n * n * 20; ++y) {
 
 
@@ -58,27 +58,28 @@ int main(int argc, char *argv[]) {
 
     int res1 = 0;
     // default config
-    long threads = 4;
-    long n = 300;
+    long threads = 1;
+    long n = 100;
 
-//    if (argc >= 2) {
-//
-//        n = strtol(argv[1], nullptr, 10);
-//    }
-//
-//    if (argc == 3) {
-//
-//        threads = strtol(argv[2], nullptr, 10);
-//    }
+    if (argc >= 2) {
 
+        threads = strtol(argv[1], nullptr, 10);
+    }
+
+    if (argc == 3) {
+
+        n = strtol(argv[2], nullptr, 10);
+    }
+//    cout << n << "N" << endl;
+//    cout << threads << "threads" << endl;
 
     auto stage1_start_time = get_current_time_fenced();
     //creating threads
     for (int i = 0; i < threads; ++i) {
 
-//        cout << "FROM" << (n * n  / threads) * i << endl;
-//        cout << "TO" << (((n * n) / threads) * i) + n * n  / threads << endl;
-        vecOfThreads.emplace_back(&find_solution_interval, (n * n *20 / threads) * i,
+//        cout << "FROM" << (n * n * 20 / threads) * i << endl;
+//        cout << "TO" << ((n * n * 2 / threads) * i) + n * n * 20 / threads<< endl;
+        vecOfThreads.emplace_back(&find_solution_interval, (n * n * 20 / threads) * i,
                                   ((n * n * 2 / threads) * i) + n * n * 20 / threads, n,
                                   &res1);
     }
@@ -88,9 +89,10 @@ int main(int argc, char *argv[]) {
     auto finish_time = get_current_time_fenced();
 
     auto total_time = finish_time - stage1_start_time;
-    cout << "RES: " << res1 << endl;
-
-    cout << "Total time: " << to_us(total_time) << endl;
+//    cout << res1 << endl;
+    std::ofstream out_file("result.txt", std::ofstream::app);
+    out_file << "N: "<<n<<"\tRES: " << res1 << "\tTIME: " << to_us(total_time) << "\tTHREADS: " << threads << endl;
+    cout << to_us(total_time) << endl;
     return 0;
 }
 
@@ -150,3 +152,8 @@ int main(int argc, char *argv[]) {
 //Total time: 4120727
 //RES: 75
 //Total time: 2562366
+
+
+
+
+
