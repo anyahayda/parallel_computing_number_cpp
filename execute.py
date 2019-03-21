@@ -3,12 +3,12 @@ import os
 import sys
 
 
-def get_min_time(threads, n):
+def get_min_time(threads,file, n=500,computations=10):
     min_res = 0
     result = 0
 
-    for g in range(10):
-        data = os.popen("{} {} {}".format("./cmake-build-release/lab_2", str(threads), str(n))).read()
+    for _ in range(computations):
+        data = os.popen("{} {} {}".format(file, str(threads), str(n))).read()
         curren_result_time, curren_result = data.split()
         if min_res:
             if min_res > curren_result_time:
@@ -30,11 +30,18 @@ if __name__ == '__main__':
 
     if len(sys.argv) < 3:
         print("""$ python {}                  # Не вказано необхідні аргументи
-Usage:  {} th n]
+Usage:  {} th file n computations 
 Where:  th -- number of threads used
-n -- n in the equation 1/x+1/y=1/n (optional)
-        """.format(sys.argv[0], sys.argv[0]))
+        file -- path to the execution file
+        n -- n in the equation 1/x+1/y=1/n (optional 500 default)
+        computations -- number of computations to find the min value (optional 10 default)
+        example:\n
+        python3 {} 4 ./<build_path>/lab_2 500 10
+        """.format(sys.argv[0], sys.argv[0],sys.argv[0]))
         exit()
-    n = int(sys.argv[2])
     threads = int(sys.argv[1])
-    get_min_time(threads, n)
+    n = int(sys.argv[3])
+    file = sys.argv[2]
+    computations = int(sys.argv[4])
+
+    get_min_time(threads, file,n,computations)
