@@ -1,3 +1,0 @@
-/Users/kolakolasic/Desktop/work_and_study/C++/lab_2/cmake-build-release/CMakeFiles/rebuild_cache.dir
-/Users/kolakolasic/Desktop/work_and_study/C++/lab_2/cmake-build-release/CMakeFiles/edit_cache.dir
-/Users/kolakolasic/Desktop/work_and_study/C++/lab_2/cmake-build-release/CMakeFiles/lab_2.dir
