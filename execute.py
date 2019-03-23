@@ -3,7 +3,7 @@ import os
 import sys
 
 
-def get_min_time(threads,file, n=500,computations=10):
+def get_min_time(threads, file, n=500, computations=10):
     min_res = 0
     result = 0
 
@@ -18,12 +18,10 @@ def get_min_time(threads,file, n=500,computations=10):
             result = curren_result
             min_res = curren_result_time
         if result != curren_result:
-
             print("Error")
             exit()
 
-
-    print("\tNO ERRORS\nNumber of threads: {}\nN: {}\nMin Time: {}\nResult {}".format(threads, n, min_res,result))
+    print("\tNO ERRORS\nNumber of threads: {}\nN: {}\nMin Time: {}\nResult {}".format(threads, n, min_res, result))
 
 
 if __name__ == '__main__':
@@ -37,11 +35,16 @@ Where:  th -- number of threads used
         computations -- number of computations to find the min value (optional 10 default)
         example:\n
         python3 {} 4 ./<build_path>/lab_2 500 10
-        """.format(sys.argv[0], sys.argv[0],sys.argv[0]))
+        """.format(sys.argv[0], sys.argv[0], sys.argv[0]))
         exit()
     threads = int(sys.argv[1])
-    n = int(sys.argv[3])
-    file = sys.argv[2]
-    computations = int(sys.argv[4])
+    n = 500
+    computations = 10
+    if (len(sys.argv) > 3):
+        n = int(sys.argv[3])
 
-    get_min_time(threads, file,n,computations)
+    file = sys.argv[2]
+    if (len(sys.argv) > 3):
+        computations = int(sys.argv[4])
+
+    get_min_time(threads, file, n, computations)

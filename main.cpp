@@ -24,7 +24,7 @@ inline long long to_us(const D &d) {
 void find_solution_interval(int const from, int const to, int const n, int *res) {
     int solution = 0;
     for (int x = from + 1; x <= to; ++x) {
-        for (int y = 1; y <= n * n * 20; ++y) {
+        for (int y = 1; y <= n * n * 2; ++y) {
             if (((x * y) / (x + y)) > n) {
                 break;
             }
@@ -43,6 +43,25 @@ void find_solution_interval(int const from, int const to, int const n, int *res)
     counter.unlock();
 }
 
+
+void find_solution_interval_linear(long const range, long n, int *res) {
+    int solution = 0;
+    for (int x = 1; x <= range; ++x) {
+        for (int y = 1; y <= range; ++y) {
+            if (((x * y) / (x + y)) > n) {
+                break;
+            }
+            if ((x * y) % (x + y) == 0) {
+                if ((x * y) / (x + y) == n) {
+                    solution++;
+                }
+            }
+        }
+
+
+    }
+    *res += solution;
+}
 
 int main(int argc, char *argv[]) {
     using std::cout;
@@ -70,13 +89,19 @@ int main(int argc, char *argv[]) {
 
     auto stage1_start_time = get_current_time_fenced();
     //creating threads
-    for (int i = 0; i < threads; ++i) {
-        vecOfThreads.emplace_back(&find_solution_interval, (n * n * 20 / threads) * i,
-                                  ((n * n * 2 / threads) * i) + n * n * 20 / threads, n,
-                                  &result);
-    }
-    for (auto &vecOfThread : vecOfThreads) {
-        vecOfThread.join();
+    long range = n * n * 2;
+
+    if (threads > 1) {
+        for (int i = 0; i < threads; ++i) {
+            vecOfThreads.emplace_back(&find_solution_interval, ((range * i) / threads),
+                                      (((range * (i + 1)) / threads)), n,
+                                      &result);
+        }
+        for (auto &vecOfThread : vecOfThreads) {
+            vecOfThread.join();
+        }
+    } else {
+        find_solution_interval_linear(range, n, &result);
     }
     auto finish_time = get_current_time_fenced();
     auto total_time = finish_time - stage1_start_time;
