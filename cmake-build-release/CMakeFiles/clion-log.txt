@@ -1,4 +1,0 @@
-/Applications/CLion.app/Contents/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=On -G "CodeBlocks - Unix Makefiles" /Users/kolakolasic/Desktop/work_and_study/C++/lab_2
--- Configuring done
--- Generating done
--- Build files have been written to: /Users/kolakolasic/Desktop/work_and_study/C++/lab_2/cmake-build-release
