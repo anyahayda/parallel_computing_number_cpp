@@ -5,8 +5,6 @@
 #include "paralel_program.h"
 
 
-
-
 inline std::chrono::high_resolution_clock::time_point get_current_time_fenced() {
     std::atomic_thread_fence(std::memory_order_seq_cst);
     auto res_time = std::chrono::high_resolution_clock::now();
@@ -26,21 +24,27 @@ int main(int argc, char *argv[]) {
     using std::thread;
     using std::vector;
     using std::mutex;
+    using std::to_string;
     vector<std::thread> vecOfThreads;
 
 
     long result = 0;
     // default config
-    long threads = 1;
-    long n = 100;
+    long threads = 4;
+    long n = 500;
 
-    if (argc >= 2) {
 
-        threads = strtol(argv[1], nullptr, 10);
+    if (argc < 2) {
+        std::string program_name = argv[0];
+        std::string str = "\nUsage:  " + program_name + " th n\n"
+                "Where:  th -- number of threads used\n"
+                "n -- n in the equation 1/x+1/y=1/n (optional 500 default)";
+
+        throw std::runtime_error(str);
     }
 
+    threads = strtol(argv[1], nullptr, 10);
     if (argc == 3) {
-
         n = strtol(argv[2], nullptr, 10);
     }
 
