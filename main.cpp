@@ -1,14 +1,10 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
-#include <iostream>
 
-#include <thread>
-#include <vector>
-#include <future>
-#include <fstream>
+#include "sequential_program.h"
+#include "paralel_program.h"
 
 
-std::mutex counter;
 
 
 inline std::chrono::high_resolution_clock::time_point get_current_time_fenced() {
@@ -23,47 +19,6 @@ inline long long to_us(const D &d) {
     return std::chrono::duration_cast<std::chrono::microseconds>(d).count();
 }
 
-void find_solution_interval(int const from, int const to, int const n, int *res) {
-    int solution = 0;
-    for (int x = from + 1; x <= to; ++x) {
-        for (int y = 1; y <= n * n * 2; ++y) {
-            if (((x * y) / (x + y)) > n) {
-                break;
-            }
-            if ((x * y) % (x + y) == 0) {
-                if ((x * y) / (x + y) == n) {
-                    solution++;
-                }
-            }
-        }
-
-
-    }
-
-    counter.lock();
-    *res += solution;
-    counter.unlock();
-}
-
-
-void find_solution_interval_linear(long const range, long n, int *res) {
-    int solution = 0;
-    for (int x = 1; x <= range; ++x) {
-        for (int y = 1; y <= range; ++y) {
-            if (((x * y) / (x + y)) > n) {
-                break;
-            }
-            if ((x * y) % (x + y) == 0) {
-                if ((x * y) / (x + y) == n) {
-                    solution++;
-                }
-            }
-        }
-
-
-    }
-    *res += solution;
-}
 
 int main(int argc, char *argv[]) {
     using std::cout;
@@ -74,7 +29,7 @@ int main(int argc, char *argv[]) {
     vector<std::thread> vecOfThreads;
 
 
-    int result = 0;
+    long result = 0;
     // default config
     long threads = 1;
     long n = 100;
@@ -103,7 +58,7 @@ int main(int argc, char *argv[]) {
             vecOfThread.join();
         }
     } else {
-        find_solution_interval_linear(range, n, &result);
+        find_solution_interval_sequential(range, n, &result);
     }
     auto finish_time = get_current_time_fenced();
     auto total_time = finish_time - stage1_start_time;
